@@ -12,11 +12,10 @@
 
 var database = firebase.database();
  
-var TrainName;
-var Destination;
-var Frequency;
-var NextArrival;
-var MinutesAway;
+var TrainName = "";
+var Destination = "";
+var Frequency = 0;
+var NextArrival = "";
 
 
  $("#minutes-away-btn").on("click", function(event){
@@ -53,7 +52,7 @@ var sv = snapshot.val();
 
 var freq = parseInt(sv.Frequency)
 
-var dConverted = moment(snapshot.val().time, 'HH:mm').subtract(1,'years');
+var dConverted = moment(snapshot.val().NextArrival, 'HH:mm').subtract(1,'years');
 
 var trainTime = moment(dConverted).format('HH:mm');
 
@@ -64,16 +63,16 @@ var tDifference = moment().diff(moment(tConverted),'minutes');
 
 var tRemainder = tDifference % freq;
 var minsAway = freq - tRemainder;
-var nextTrain = moment().add(minsAway,'minutes');
+nextTrain = moment().add(minsAway,'minutes');
 
     var newRow = $("<tr>").append(
 
         $("<td>").text(sv.TrainName),
         $("<td>").text(sv,Destination),
         $("<td>").text(sv,Frequency),
-        $("<td>").text(sv,NextArrival),
-        $("<td>").text(moment(MinutesAway, 'HH:mm').format('hh:mm a')),
-        $("<td>").text(minsAway + ' Minutes Away'),
+        $("<td>").text(moment(sv,NextArrival, 'HH:mm').format('hh:mm a')),
+        //$("<td>").text(moment(MinutesAway, 'HH:mm').format('hh:mm a')),
+        $("<td>").text(minsAway),
 
     
         )
